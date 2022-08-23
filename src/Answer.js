@@ -21,6 +21,7 @@ const Answer = () => {
             headers:{"Content-Type":"application/json"},
             body:JSON.stringify(survey)
         }).then(()=>{
+            
             console.log("Answer saved")
         })   
     }

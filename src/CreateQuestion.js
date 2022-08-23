@@ -1,68 +1,98 @@
-import {useState,useRef,useEffect} from 'react';
-import Survey from './Survey';
+import React, {Component} from 'react'
 import * as d3 from 'd3';
-import TextField from '@material-ui/core/TextField';
 import {Button} from '@material-ui/core';
 
-const CreateQuestion = () => {
-    const[question, setQuestion]=useState('')
-    const[questions,setQuestions]=useState([]);
+class CreateQuestion extends Component { 
+    constructor(props) {
+        super(props);
+        this.state = {
+            id: '',
+            question: ''
+        }
+        
+        this.handleQuestionAdd = this.handleQuestionAdd.bind(this);
+        }
 
-    const handleQuestionAdd = (e) => {
+     
+      handleQuestionAdd = (e) => {
+        
+        this.setState({ id: Math.floor(Math.random() * 1000) + 1})
+ 
         e.preventDefault()
-        const survey={question}
-        console.log(survey)
+
         fetch("http://localhost:8080/question/add",{
+            
             method:"POST",
+            body: JSON.stringify({
+                id: this.state.id,
+                question: this.state.question,
+             }),
             headers:{"Content-Type":"application/json"},
-            body:JSON.stringify(survey)
+            
         }).then(()=>{
+            this.props.parentCallback(this.state.id); // sending question id to survey component 
+            
             console.log("Question saved")
+            this.setState({
+            question: e.target.value,
+          });
         })   
     }
-
-    useEffect(()=>{
-        fetch("http://localhost:8080/question/getAll")
-        .then(res=>res.json())
-        .then((result)=>{
-          setQuestions(result);
-        }
-      )
-      },[])
+   
 
 
 
     
-   
+    render () {
+    const {question} = this.state;
+
+
     return (  
 
         <div className='content'>
             <form noValidate autoComplete="off">
-            <h2>Create New Question</h2>
+            
+            {this.props.id}
             <div>
                 <br></br>
-            <TextField id="outlined-basic" label="Question" variant="outlined"  
-                value={question}
-                onChange={(e)=>setQuestion(e.target.value)}
-                />
+
+                <label>Question: </label>
+                <input 
+                  
+                  required
+                  name="question"
+                  value={question}
+                  rules={[{ required: true, message: "Please input!" }]}
+                    onChange={(text) =>
+                      this.setState({ question: text.target.value})
+                    }
+                  />
+            
             </div>
 
             <br/>
 
+            
+
             <div>
                 
-                <Button variant="contained" color="secondary" onClick={handleQuestionAdd}>
-                SEND QUESTION
+                <Button variant="contained" color="secondary" onClick={this.handleQuestionAdd}>
+                ADD the QUESTION
                 </Button>
             </div>
+
+           
 
             
             
     </form>
             
-        </div>
+    </div>
         
-    );
+        );
+    }
+
 }
- 
+
+
 export default CreateQuestion;
