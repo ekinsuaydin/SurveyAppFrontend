@@ -6,18 +6,7 @@ const QuestionList = () => {
     const[question, setQuestion]=useState('')
     const[questions,setQuestions]=useState([]);
 
-    const handleClick = (e) => {
-        e.preventDefault()
-        const survey={question}
-        console.log(survey)
-        fetch("http://localhost:8080/question/add",{
-            method:"POST",
-            headers:{"Content-Type":"application/json"},
-            body:JSON.stringify(survey)
-        }).then(()=>{
-            console.log("Question saved")
-        })   
-    }
+ 
 
     useEffect(()=>{
         fetch("http://localhost:8080/question/getAll")
@@ -28,11 +17,7 @@ const QuestionList = () => {
       )
       },[])
 
-      const handleAnswer = (id) => {
-    
-    }
 
-    
 
 
 
@@ -42,11 +27,11 @@ const QuestionList = () => {
         
         <h2>All Questions</h2>
         <div>
-        <a href="/create" style={{}}>Create New Question</a>
+        <a href="/createquestion" style={{}}>Create New Question</a>
         </div>
         {questions.map(q => (
             <div className="question-preview" key={q.id} >
-            <h2>{ q.question }</h2>
+              <h2>{ q.question }</h2>
             
             </div>
         ))}
