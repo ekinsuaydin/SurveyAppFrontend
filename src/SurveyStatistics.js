@@ -1,12 +1,11 @@
 import { useParams } from "react-router";
 import {useState, useRef, useEffect} from 'react';
-import * as d3 from 'd3';
+import Graph from "./Graph";
 
 const SurveyStatistics = () => {
   const[survey, setSurvey] = useState({}); 
   const { id } = useParams();
 
-const svgRef = useRef();
 
   useEffect(() => {
     
@@ -16,53 +15,7 @@ const svgRef = useRef();
     })
     .then(data => {
         setSurvey(data);
-        console.log(data)
-        const w=500;
-        const h=200;
-        const svg=d3.select(svgRef.current)
-                    .attr('width',w)
-                    .attr('height',h)
-                    .style('background', '#FFFFFF')
-                    .style('color','black')
-                    .style('margin-top', '50')
-                    .style('overflow', 'visible');
-
-        const xScale =d3.scaleTime()
-            .domain([0,data.questions.answers.date.length-1])
-            .range([0,w])
-
-       
-        const yScale=d3.scaleLinear()
-            .domain([0,10]) 
-            .range([h,0])
-        const generateScaledLine = d3.line()
-            .x((d, i) => xScale(i))
-            .y(yScale)
-
-            
-        const xAxis = d3.axisBottom(xScale)
-            .ticks(data.questions.answers.date.length)
-            .tickValues(data.questions.answers.date.toDateString)
-            .tickFormat((d, i) => data.questions.answers.date[i])
-
-        
-        const yAxis = d3.axisLeft(yScale)
-            .ticks(5);
-        svg.append('g')
-            .call(xAxis)
-            .attr('transform', 'translate(0,200)');
-        svg.append('g')
-            .call(yAxis);
-
-        svg.selectAll('.line')
-            .data([data.questions.answers])
-            .join('path')
-            .attr('d', d => generateScaledLine(d))
-            .attr('fill', 'none')
-            .attr('stroke', '#EF1565');
-    }).then({
-      
-    }) 
+    })
 }, []);
 
 
@@ -87,10 +40,9 @@ const svgRef = useRef();
 
                     
    
-                    <br/>
-                    <div>
-                        <svg ref={svgRef}></svg>
-                    </div>
+                    <Graph id={q.id}>
+
+                    </Graph>
                    
          
                     
