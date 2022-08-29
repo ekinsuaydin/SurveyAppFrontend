@@ -30,7 +30,7 @@ const QuestionList = () => {
         <a href="/createquestion" style={{}}>Create New Question</a>
         </div>
         {questions.map(q => (
-            <div className="question-preview" key={q.id} >
+            <div className="question-previeww" key={q.id} >
               <h2>{ q.question }</h2>
             
             </div>

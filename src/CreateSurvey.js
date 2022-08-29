@@ -35,6 +35,7 @@ class CreateSurvey extends Component {
         }).then(()=>{
           
             console.log("Survey saved")
+            this.state.questions.shift()
             this.setState({
             title: e.target.value,
             questions: [{
@@ -59,10 +60,11 @@ class CreateSurvey extends Component {
         question: q
       };
       
-
-      console.log(this.state.questions.question)
-
+      
       if(this.controlQuestion === true){
+        if(this.state.questions[0].question=== '')
+        { this.state.questions.shift();}
+         
         this.setState((prevState) => ({
         questions: prevState.questions.concat([newQuestion])
       }));
@@ -81,7 +83,7 @@ class CreateSurvey extends Component {
     return (  
 
     <div className='content'>
-        <form noValidate autoComplete="off">
+        <form noValidate autoComplete="off" style={{'width':'50%'}}>
             <h2>Create New Survey</h2>
             
             
@@ -92,6 +94,7 @@ class CreateSurvey extends Component {
                 <label>Survey Title: </label> 
             
                   <input 
+                  className='create-form'
                   required
                   name="survey"
                   value={title}
@@ -106,7 +109,8 @@ class CreateSurvey extends Component {
 
             <div>
             <label>Question: </label> 
-              <input 
+              <input
+                  className='create-form' 
                   required
                   name="question"
                   rules={[{ required: true, message: "Please input!" }]}
@@ -120,31 +124,21 @@ class CreateSurvey extends Component {
 
             <div>
               <Button
-                variant="contained" color="primary"
+                variant="contained" style={{'backgroundColor':'#90EE90'}}
                 onClick={() => this.appendQuestion(this.questionText)}>
-                  Add Question
+                  Add a Question(s)
               </Button>
             </div>
 
            
 
             
-                  
-
-                  
-                
-            
-
-            <br/>
-            
-
-            
             
             <br/>
 
             <div>
-                <Button variant="contained" color="secondary" onClick={(e) => this.createSurvey(e)} >
-                 Create Survey
+                <Button variant="contained" style={{'backgroundColor':'#66CDAA'}} onClick={(e) => this.createSurvey(e)} >
+                 SUBMIT
                 </Button>
             </div>
             

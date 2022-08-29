@@ -1,12 +1,9 @@
-import {useState,useRef,useEffect} from 'react';
-import {Button} from '@material-ui/core';
-import Answer from './Answer';
+import {useState,useEffect} from 'react';
+import { Link } from "react-router-dom";
 
 const SurveyList = () => {
-    const[survey, setSurvey]=useState('')
     const[surveys,setSurveys]=useState([]);
 
-    
 
     useEffect(()=>{
         fetch("http://localhost:8080/survey/getAll")
@@ -26,18 +23,29 @@ const SurveyList = () => {
         
     <div className="question-list">
         
-        <h2>All Questions</h2>
         <div>
-        <a href="/createsurvey" style={{}}>Create New Survey</a>
+            <h2>All Surveys</h2>
         </div>
-        {surveys.map(s => (
+          
+
+        <div>
+            <a href="/createsurvey">Create New Survey</a>
+        </div>
+        
+        
+        {surveys?.map(s => (
             <div className="question-preview" key={s.id} >
-                <h2>{ s.title }</h2> 
-                {s.questions.map(q => (
-                <div className="question-preview" key={q.id} >
-                    <h2>{ q.question }</h2>     
+                <h3 style={{'float':'left'}}>{ s.title }</h3> 
+                <Link to={"/giveanswer/" + s.id} style={{'float':'right'}}>Give an Answer(s) to the Survey</Link>   
+                {s.questions?.map(q => (
+                <div className="question-previeww" key={q.id} >
+                    <h4>{ q.question }</h4>   
+                    
                 </div>
-                ))}    
+                 
+                ))}
+                <Link to={"/surveystatistics/" + s.id} style={{'float':'right'}}>Survey Statistics</Link>   
+                
             </div>
            
 

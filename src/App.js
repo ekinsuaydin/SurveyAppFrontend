@@ -2,13 +2,16 @@ import Navbar from './Navbar';
 import Answer from './Answer';
 import QuestionList from './QuestionList';
 import CreateQuestion from './CreateQuestion';
+import GiveAnswer from './GiveAnswer';
+import SurveyList from './SurveyList';
+import CreateSurvey from './CreateSurvey';
+import SurveyStatistics from './SurveyStatistics';
 import {
   BrowserRouter,
   Routes,
   Route,
 } from "react-router-dom";
-import SurveyList from './SurveyList';
-import CreateSurvey from './CreateSurvey';
+
 
 function App() {
   return (
@@ -33,8 +36,12 @@ function App() {
             <Route path="/createSurvey"
               element={<CreateSurvey/>}
             />
-
-
+            <Route path="/giveanswer/:id"
+              element={<GiveAnswer/>}
+            />
+            <Route path="/surveystatistics/:id"
+              element={<SurveyStatistics/>}
+            />
           </Routes>
         </div>
       </div>
