@@ -88,6 +88,7 @@ a:hover {
 Button {
   border-radius: 4px;
   width: 100%;
+  height: 32px;
 }  
 
 .create-form {
@@ -97,4 +98,6 @@ Button {
   padding: 5px;
   border-color: gray;
 }
+
+
 

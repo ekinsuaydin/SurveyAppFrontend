@@ -6,6 +6,7 @@ import GiveAnswer from './GiveAnswer';
 import SurveyList from './SurveyList';
 import CreateSurvey from './CreateSurvey';
 import SurveyStatistics from './SurveyStatistics';
+import EditSurvey from './EditSurvey';
 import {
   BrowserRouter,
   Routes,
@@ -41,6 +42,9 @@ function App() {
             />
             <Route path="/surveystatistics/:id"
               element={<SurveyStatistics/>}
+            />
+            <Route path="/editsurvey/:id"
+              element={<EditSurvey/>}
             />
           </Routes>
         </div>

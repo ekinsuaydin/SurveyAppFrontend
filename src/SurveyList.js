@@ -1,5 +1,6 @@
 import {useState,useEffect} from 'react';
 import { Link } from "react-router-dom";
+import {Button} from '@material-ui/core';
 
 const SurveyList = () => {
     const[surveys,setSurveys]=useState([]);
@@ -14,9 +15,16 @@ const SurveyList = () => {
       )
       },[])
 
-    
-    
-
+    const handleDelete = (sid) => {
+        console.log(sid)
+        fetch("http://localhost:8080/survey/delete/" + sid, {
+            method: "DELETE",
+            headers: {"Accept":"application/json", "Content-Type":"application/json"}
+        }).then(() => {
+            let updatedSurveys = [...surveys].filter(i => i.id !== sid);
+            setSurveys(updatedSurveys);
+        });
+        }
 
 
     return (
@@ -44,6 +52,12 @@ const SurveyList = () => {
                 </div>
                  
                 ))}
+                <Button  style={{'backgroundColor':'red', 'width': '50px', 'marginBottom':'4px'}} 
+                onClick={() => handleDelete(s.id)} >
+                 Delete
+                </Button>
+                <Link to={"/editsurvey/" + s.id} style={{'marginLeft': '10px', }}>
+                    Edit</Link>   
                 <Link to={"/surveystatistics/" + s.id} style={{'float':'right'}}>Survey Statistics</Link>   
                 
             </div>

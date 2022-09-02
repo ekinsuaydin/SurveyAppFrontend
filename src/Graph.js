@@ -4,11 +4,11 @@ import * as d3 from 'd3';
 
 const Graph = (props) => {
   const[question, setQuestion] = useState({}); 
+  const[information, setInformation] = useState('');
   const id = props.id;
   console.log(id)
 
 const svgRef = useRef();
-
   useEffect(() => {
     
     fetch('http://localhost:8080/question/' + id)
@@ -16,6 +16,10 @@ const svgRef = useRef();
         return response.json();
     })
     .then(data => {
+        if(data.answers.length===0){
+         setInformation('No one answered yet.')
+        }
+        else {
         setQuestion(data);
         console.log('answers', data.answers.map(a => a.answer))
         const w=650;
@@ -63,21 +67,21 @@ const svgRef = useRef();
             .attr('d', d => generateScaledLine(d))
             .attr('fill', 'none')
             .attr('stroke', '#EF1565');
-    }).then({
-      
-    }) 
+  }})
+
 }, []);
 
-
-
-    
 
 
     return (
         
    
     <div>
+        <p style={{'fontWeight': 'bold'}}>
+           {information} 
+        </p>
         <svg ref={svgRef}></svg>
+        
     </div>    
                  
 
